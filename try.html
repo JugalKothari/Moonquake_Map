@@ -1,0 +1,185 @@
+<html><head>
+  <style> body { margin: 0; } </style>
+
+  <script src="//unpkg.com/d3-array"></script>
+  <script src="//unpkg.com/d3-scale"></script>
+
+  <script src="//unpkg.com/globe.gl"></script><style type="text/css">.scene-container .clickable {
+  cursor: pointer;
+}</style><style type="text/css">.scene-nav-info {
+  bottom: 5px;
+  width: 100%;
+  text-align: center;
+  color: slategrey;
+  opacity: 0.7;
+  font-size: 10px;
+}
+
+.scene-tooltip {
+  top: 0;
+  color: lavender;
+  font-size: 15px;
+}
+
+.scene-nav-info, .scene-tooltip {
+  position: absolute;
+  font-family: sans-serif;
+  pointer-events: none;
+}
+
+.scene-container canvas:focus {
+  outline: none;
+}</style>
+  <!--<script src="../../dist/globe.gl.js"></script>-->
+</head>
+
+<body>
+<label for="dataset">Select the satellite data u want to access:</label>
+<select name="dataset" id="dataset">
+  <option value="nakamura 1979">nakamura 1979</option>
+  <option value="nakamura 1983">nakamura 1983</option>
+  <option value="nakamura 2005">nakamura 2005</option>
+</select>
+<br><br>
+<input id="sub" type="submit" value="Submit" onclick="showpts()">
+<div id="globeViz"><div style="position: relative;"><div><div class="scene-container" style="position: relative; width: 982px; height: 750px;"><div class="scene-nav-info" style="display: none;">Left-click: rotate, Mouse-wheel/middle-click: zoom, Right-click: pan</div><div class="scene-tooltip" style="top: 160.2px; left: 958.4px; transform: translate(-97.5967%, 21px);"></div><canvas data-engine="three.js r144" width="1227" height="937" style="display: block; touch-action: none; width: 982px; height: 750px;"></canvas><div style="overflow: hidden; position: absolute; top: 0px; pointer-events: none; width: 982px; height: 750px;"></div></div></div></div></div>
+
+<script>
+  const colorScale = d3.scaleOrdinal(['orangered', 'mediumblue', 'darkgreen', 'yellow']);
+
+  const labelsTopOrientation = new Set(['Apollo 12', 'Luna 2', 'Luna 20', 'Luna 21', 'Luna 24', 'LCROSS Probe']); // avoid label collisions
+
+  const elem = document.getElementById('globeViz');
+  const moon = Globe()
+    .globeImageUrl('./lunar_surface.jpg')
+    .bumpImageUrl('./lunar_bumpmap.jpg')
+    .backgroundImageUrl('//unpkg.com/three-globe/example/img/night-sky.png')
+    .showGraticules(true)
+    .showAtmosphere(true) // moon has no atmosphere
+    .labelText('label')
+    .labelSize(1.7)
+    .labelDotRadius(0.2)
+    .labelDotOrientation(d => labelsTopOrientation.has(d.label) ? 'top' : 'bottom')
+    .labelColor(d => colorScale(d.agency))
+    .labelLabel(d => `
+        <div><b>${d.label}</b></div>
+        <div>${d.agency} - ${d.program} Program</div>
+        <div>Landing on <i>${new Date(d.date).toLocaleDateString()}</i></div>
+      `)
+    .onLabelClick(d => window.open(d.url, '_blank'))
+    (elem);
+
+  fetch('./moon_landings.json').then(r => r.json()).then(landingSites => {
+    moon.labelsData(landingSites);
+  });
+
+  function showpts(){
+    a=document.getElementById("dataset").value;
+    console.log(a);
+    if(a=="nakamura 1979"){
+      const colorScale = d3.scaleOrdinal(['orangered']);
+
+    //  const labelsTopOrientation = new Set(['Apollo 12', 'Luna 2', 'Luna 20', 'Luna 21', 'Luna 24', 'LCROSS Probe']); // avoid label collisions
+
+      const elem = document.getElementById('globeViz');
+     
+
+      const moon = Globe()
+        .globeImageUrl('./lunar_surface.jpg')
+        .bumpImageUrl('./lunar_bumpmap.jpg')
+        .backgroundImageUrl('//unpkg.com/three-globe/example/img/night-sky.png')
+        .showGraticules(true)
+        .showAtmosphere(true) // moon has no atmosphere
+        .labelText('label')
+        .labelSize(1.7)
+        .labelDotRadius(0.7)
+        //.labelDotOrientation(d => labelsTopOrientation.has(d.label) ? 'top' : 'bottom')
+        .labelColor(d => colorScale(d.lng))
+        .labelLabel(d => `
+            <div><b>Magnitude: ${d.Magnitude}</b><br></div>
+            <div>co-ord: ${d.lng} , ${d.lat}</div>
+            <div><p> this scale of moonquake <br> on earth might<br>${d.state}</div></p>
+            
+          `)
+        .onLabelClick(d => window.open(d.url, '_blank'))
+        (elem);
+
+      fetch('./NAKAMURA_1979.json').then(r => r.json()).then(landingSites => {
+        moon.labelsData(landingSites);
+      });
+
+
+    }
+    else if(a=="nakamura 2005"){
+    
+   
+      const colorScale = d3.scaleOrdinal(['orangered']);
+
+      //const labelsTopOrientation = new Set(['Apollo 12', 'Luna 2', 'Luna 20', 'Luna 21', 'Luna 24', 'LCROSS Probe']); // avoid label collisions
+
+      const elem = document.getElementById('globeViz');
+      const moon = Globe()
+        .globeImageUrl('./lunar_surface.jpg')
+        .bumpImageUrl('./lunar_bumpmap.jpg')
+        .backgroundImageUrl('//unpkg.com/three-globe/example/img/night-sky.png')
+        .showGraticules(true)
+        .showAtmosphere(true) // moon has no atmosphere
+        .labelText('label')
+        .labelSize(1.7)
+        .labelDotRadius(0.7)
+        //.labelDotOrientation(d => labelsTopOrientation.has(d.label) ? 'top' : 'bottom')
+        .labelColor(d => colorScale(d.lng))
+        .labelLabel(d => `
+            <div><p>The following is the depth<br>ofthe epicenter <br>of the moonquake</p></div>
+            <div><b>Depth of Epicenter: ${d.Depth}km</b><br></div>
+            <div>co-ord: ${d.lng} , ${d.lat}</div>
+          
+            
+          `)
+        .onLabelClick(d => window.open(d.url, '_blank'))
+        (elem);
+
+      fetch('./nakamura_2005.json').then(r => r.json()).then(landingSite => {
+        moon.labelsData(landingSite);
+      });
+
+    }
+    else if(a=="nakamura 1983"){
+      const colorScale = d3.scaleOrdinal(['orangered']);
+
+      //const labelsTopOrientation = new Set(['Apollo 12', 'Luna 2', 'Luna 20', 'Luna 21', 'Luna 24', 'LCROSS Probe']); // avoid label collisions
+
+      const elem = document.getElementById('globeViz');
+      const moon = Globe()
+        .globeImageUrl('./lunar_surface.jpg')
+        .bumpImageUrl('./lunar_bumpmap.jpg')
+        .backgroundImageUrl('//unpkg.com/three-globe/example/img/night-sky.png')
+        .showGraticules(true)
+        .showAtmosphere(true) // moon has no atmosphere
+        .labelText('AI')
+        .labelSize(1.7)
+        .labelDotRadius(0.5)
+        //.labelDotOrientation(d => labelsTopOrientation.has(d.label) ? 'top' : 'bottom')
+        .labelColor(d => colorScale(d.lng))
+        .labelLabel(d => `
+            <div><p>This is the date<br>of impact of spacecarft<br>on the lunar surface</p>
+            <div><b>Impact Date: ${d.Y}-${d.JD}</b><br></div>
+            <div>co-ord: ${d.lng} , ${d.lat}</div>
+            <div>Year: 
+            
+          `)
+        .onLabelClick(d => window.open(d.url, '_blank'))
+        (elem);
+
+      fetch('./nakamura_1983.json').then(r => r.json()).then(landingSite => {
+        moon.labelsData(landingSite);
+      });
+    }
+  }
+  
+
+</script>
+
+</body>
+</html>
+

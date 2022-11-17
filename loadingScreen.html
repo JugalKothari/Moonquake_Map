@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="refresh" content="4; URL=index.html" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+margin: 0;
+background-color: black;
+}
+
+.all {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height:100vh;
+  width:100%;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
+.top {
+  margin-bottom: -53px;
+  margin-left: 23px;
+  background-color: transparent;
+  border: 2px solid white;
+  border-bottom-color: transparent;
+  border-right-color: transparent;
+  border-radius: 100px;
+  width: 100px;
+  height: 100px;
+  transform: rotateY(0deg) rotate(45deg);
+}
+
+.inner-oval {
+  align-items: center;
+  border: 2px solid white;
+  width: 150px;
+  height: 30px;
+  border-radius: 50px;
+  display: flex;
+  justify-content: space-around;
+}
+
+.circle1 {
+  border: 2px solid white;
+  width: 10px;
+  height: 10px;
+  border-radius: 50px;
+  animation: zoom 3s linear 0s 1;
+}
+
+.circle2 {
+  border: 2px solid white;
+  width: 10px;
+  height: 10px;
+  border-radius: 50px;
+  animation: zoom 3s linear 0s 1;
+  animation-delay: 1s;
+  
+}
+
+.circle3 {
+  border: 2px solid white;
+  width: 10px;
+  height: 10px;
+  border-radius: 50px;
+  animation: zoom 3s linear 0s 1;
+  animation-delay: 2s;
+  
+}
+
+@keyframes zoom {
+  0% {
+    backround-color: black;
+  }
+  50% {
+    background-color: white;
+  }
+  100% {
+    background-color: black;
+    
+    }
+  }
+
+    </style>
+</head>
+<body>
+    <div class="all">
+        <div class="container">
+            bjv
+          <div class="top"></div>
+          <div class="inner-oval">
+            <div class="circle1"></div>
+            <div class="circle2"></div>
+            <div class="circle3"></div>
+          </div>
+        </div>
+      </div>
+      
+    
+</body>
+</html>
